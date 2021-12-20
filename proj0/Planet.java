@@ -9,7 +9,8 @@ public class Planet{
     /**Its current velocity in the y direction*/
     public double mass;
     public String imgFileName;
-    public static double G = 6.67E-11;
+    /*The following fields should be made private**/
+    private static double G = 6.67E-11;
 
     public Planet(double xP, double yP, double xV,
               double yV, double m, String img){
