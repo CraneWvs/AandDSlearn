@@ -100,9 +100,11 @@ public class IntList {
         if (A == null) {
             return B;
         }
-        IntList newL = new IntList(A.first, A.rest);
+        IntList newL = new IntList(A.first, null);
         IntList medL = newL;
-        while (newL.rest != null) {
+        while (A.rest != null) {
+            A = A.rest;
+            newL.rest = new IntList(A.first, null);
             newL = newL.rest;
         }
         newL.rest = B;
