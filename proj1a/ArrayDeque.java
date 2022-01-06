@@ -11,6 +11,7 @@ public class ArrayDeque<T> {
     private int nextFirst;
     private int nextLast;
     private T[] items = (T []) new Object[8];
+    private Move move = new Move();
     // Creates an empty ArrayDeque.
     public ArrayDeque() {
         size = 0;
@@ -19,13 +20,13 @@ public class ArrayDeque<T> {
     }
     // helper method: how to move in a circular array.
     private class Move {
-        public static int front(int arrl, int p) {
+        public int front(int arrl, int p) {
             if (p == 0) {
                 return (arrl - 1);
             }
             return (p - 1);
         }
-        public static int back(int arrl, int p) {
+        public int back(int arrl, int p) {
             if (p == (arrl - 1)) {
                 return 0;
             }
@@ -35,10 +36,10 @@ public class ArrayDeque<T> {
     // helper method: resizes the array. puts the Arraydeque in the front.
     private void resize(int objsize) {
         T[] newitems = (T[]) new Object[objsize];
-        int p = Move.back(items.length, nextFirst);
+        int p = move.back(items.length, nextFirst);
         for (int i = 0; i < size; i++) {
             newitems[i] = items[p];
-            p = Move.back(items.length, p);
+            p = move.back(items.length, p);
         }
         items = newitems;
         nextFirst = objsize - 1;
@@ -50,7 +51,7 @@ public class ArrayDeque<T> {
             resize(size * 2);
         }
         items[nextFirst] = item;
-        nextFirst = Move.front(items.length, nextFirst);
+        nextFirst = move.front(items.length, nextFirst);
         size++;
     }
     // Adds an item of type T to the back of the deque.
@@ -59,7 +60,7 @@ public class ArrayDeque<T> {
             resize(size * 2);
         }
         items[nextLast] = item;
-        nextLast = Move.back(items.length, nextLast);
+        nextLast = move.back(items.length, nextLast);
         size++;
     }
     // Returns true if deque is empty, false otherwise.
@@ -76,10 +77,10 @@ public class ArrayDeque<T> {
     // Prints the items in the deque from first to last, separated by a space.
     // Once all the items have been printed, print out a new line.
     public void printDeque() {
-        int p = Move.back(items.length, nextFirst);
+        int p = move.back(items.length, nextFirst);
         for (int i = 0; i < size; i++) {
             System.out.print(items[p] + " ");
-            p = Move.back(items.length, p);
+            p = move.back(items.length, p);
         }
         System.out.println();
     }
@@ -92,7 +93,7 @@ public class ArrayDeque<T> {
         if ((items.length > 8) && ((size / (items.length)) <= 0.25)) {
             resize(size * 2);
         }
-        int first = Move.back(items.length, nextFirst);
+        int first = move.back(items.length, nextFirst);
         T remove = items[first];
         nextFirst = first;
         size--;
@@ -107,7 +108,7 @@ public class ArrayDeque<T> {
         if ((items.length > 8) && ((size / (items.length)) <= 0.25)) {
             resize(size * 2);
         }
-        int last = Move.front(items.length, nextLast);
+        int last = move.front(items.length, nextLast);
         T remove = items[last];
         nextLast = last;
         size--;
@@ -119,7 +120,7 @@ public class ArrayDeque<T> {
         if (index >= size) {
             return null;
         }
-        int first = Move.back(items.length, nextFirst);
+        int first = move.back(items.length, nextFirst);
         if (index < (items.length - first)) {
             return items[first + index];
         }
