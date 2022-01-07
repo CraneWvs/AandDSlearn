@@ -1,20 +1,20 @@
 /** Circular sentinel version. */
 public class LinkedListDeque<T> {
-    public int size;
+    private int size;
     private TNode sentinel;
     /** nested class TNode. */
     private class TNode {
-        public TNode prev;
-        public T item;
-        public TNode next;
-        public TNode(TNode p, T i, TNode n) {
+        TNode prev;
+        T item;
+        TNode next;
+        TNode(TNode p, T i, TNode n) {
             prev = p;
             item = i;
             next = n;
         }
         /** create a special TNode to help create the null sentinel. */
         /** not sure. */
-        public TNode() {
+        TNode() {
             prev = this;
             next = this;
         }
@@ -68,6 +68,7 @@ public class LinkedListDeque<T> {
         TNode p = sentinel.next;
         p.next.prev = sentinel;
         sentinel.next = p.next;
+        size--;
         return p.item;
     }
     /** Removes and returns the item at the back of the deque.
@@ -79,6 +80,7 @@ public class LinkedListDeque<T> {
         TNode p = sentinel.prev;
         p.prev.next = sentinel;
         sentinel.prev = p.prev;
+        size--;
         return p.item;
     }
 
@@ -98,7 +100,7 @@ public class LinkedListDeque<T> {
     /** Same as get, but uses recursion. */
     /** not sure. */
     public T getRecursive(int index) {
-        if (index >= size | index < 0) {
+        if (index >= size || index < 0) {
             return null;
         }
         if (index == 0) {
