@@ -35,12 +35,18 @@ public class ArrayDeque<T> {
     }
     // helper method: resizes the array. puts the Arraydeque in the front.
     private void resize(int objsize) {
+        // try to improve performance.
         T[] newitems = (T[]) new Object[objsize];
-        int p = Move.back(items.length, nextFirst);
-        for (int i = 0; i < size; i++) {
-            newitems[i] = items[p];
-            p = Move.back(items.length, p);
-        }
+        int len = items.length;
+        int first = Move.back(len, nextFirst);
+        int last = Move.front(len, nextLast);
+        System.arraycopy(items, first, newitems, 0, len - first);
+        System.arraycopy(items, 0, newitems, len - first, last + 1);
+//        int p = Move.back(items.length, nextFirst);
+//        for (int i = 0; i < size; i++) {
+//            newitems[i] = items[p];
+//            p = Move.back(items.length, p);
+//        }
         items = newitems;
         nextFirst = objsize - 1;
         nextLast = size;

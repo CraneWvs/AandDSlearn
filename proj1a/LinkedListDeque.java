@@ -98,18 +98,17 @@ public class LinkedListDeque<T> {
         return p.next.item;
     }
     /** Same as get, but uses recursion. */
-    /** not sure. */
+    // helper method.
+    private TNode getTNode(int index) {
+        if (index == 0) {
+            return sentinel.next;
+        }
+        return getTNode(index - 1).next;
+    }
     public T getRecursive(int index) {
         if (index >= size || index < 0) {
             return null;
         }
-        if (index == 0) {
-            return sentinel.next.item;
-        }
-        LinkedListDeque<T> l = new LinkedListDeque<>();
-        l.size = size;
-        l.sentinel = sentinel;
-        l.removeFirst();
-        return l.getRecursive(index - 1);
+        return getTNode(index).item;
     }
 }
