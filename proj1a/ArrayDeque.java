@@ -40,8 +40,12 @@ public class ArrayDeque<T> {
         int len = items.length;
         int first = Move.back(len, nextFirst);
         int last = Move.front(len, nextLast);
-        System.arraycopy(items, first, newitems, 0, len - first);
-        System.arraycopy(items, 0, newitems, len - first, last + 1);
+        if (first <= last) {
+            System.arraycopy(items, first, newitems, 0, size);
+        } else {
+            System.arraycopy(items, first, newitems, 0, len - first);
+            System.arraycopy(items, 0, newitems, len - first, last + 1);
+        }
 //        int p = Move.back(items.length, nextFirst);
 //        for (int i = 0; i < size; i++) {
 //            newitems[i] = items[p];
